@@ -8,11 +8,13 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/ramdhanrizki/bytecode-api/configs"
+	"github.com/ramdhanrizki/bytecode-api/internal/category"
 	"github.com/ramdhanrizki/bytecode-api/internal/identity"
+	"github.com/ramdhanrizki/bytecode-api/internal/product"
 	"github.com/ramdhanrizki/bytecode-api/internal/shared/response"
 )
 
-func NewHTTPServer(cfg configs.Config, logger *zap.Logger, identityModule *identity.Module) *http.Server {
+func NewHTTPServer(cfg configs.Config, logger *zap.Logger, identityModule *identity.Module, categoryModule *category.Module, productModule *product.Module) *http.Server {
 	if cfg.App.Env != "production" {
 		gin.SetMode(gin.DebugMode)
 	} else {
@@ -37,6 +39,12 @@ func NewHTTPServer(cfg configs.Config, logger *zap.Logger, identityModule *ident
 
 	if identityModule != nil {
 		identityModule.RegisterRoutes(router)
+		if categoryModule != nil {
+			categoryModule.RegisterRoutes(router, identityModule.AuthMiddleware, identityModule.PermissionMiddleware)
+		}
+		if productModule != nil {
+			productModule.RegisterRoutes(router, identityModule.AuthMiddleware, identityModule.PermissionMiddleware)
+		}
 	}
 
 	return &http.Server{

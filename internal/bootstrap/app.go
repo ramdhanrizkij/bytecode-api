@@ -14,10 +14,12 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ramdhanrizki/bytecode-api/configs"
+	"github.com/ramdhanrizki/bytecode-api/internal/category"
 	"github.com/ramdhanrizki/bytecode-api/internal/identity"
 	identityService "github.com/ramdhanrizki/bytecode-api/internal/identity/application/service"
 	identityWorker "github.com/ramdhanrizki/bytecode-api/internal/identity/delivery/worker"
 	platformSMTP "github.com/ramdhanrizki/bytecode-api/internal/platform/mail/smtp"
+	"github.com/ramdhanrizki/bytecode-api/internal/product"
 	sharedLogger "github.com/ramdhanrizki/bytecode-api/internal/shared/logger"
 	sharedQueue "github.com/ramdhanrizki/bytecode-api/internal/shared/queue"
 	workerpkg "github.com/ramdhanrizki/bytecode-api/internal/worker"
@@ -33,6 +35,8 @@ type App struct {
 	Queue    sharedQueue.Publisher
 	Consumer sharedQueue.Consumer
 	Identity *identity.Module
+	Category *category.Module
+	Product  *product.Module
 	Worker   *workerpkg.Server
 }
 
@@ -68,6 +72,8 @@ func NewApp() (*App, error) {
 		DB:     db,
 		Queue:  queue,
 	})
+	categoryModule := category.NewModule(category.Dependencies{Logger: logger, DB: db})
+	productModule := product.NewModule(product.Dependencies{Logger: logger, DB: db})
 
 	mailSender := platformSMTP.NewSender(cfg.SMTP, logger)
 	emailVerificationService := identityService.NewEmailVerificationDeliveryService(logger, mailSender, cfg.App.Name)
@@ -79,7 +85,7 @@ func NewApp() (*App, error) {
 	workerServer := workerpkg.NewServer(consumer)
 
 	zapLogger := unwrapZapLogger(logger)
-	server := NewHTTPServer(cfg, zapLogger, identityModule)
+	server := NewHTTPServer(cfg, zapLogger, identityModule, categoryModule, productModule)
 
 	return &App{
 		Config:   cfg,
@@ -89,6 +95,8 @@ func NewApp() (*App, error) {
 		Queue:    queue,
 		Consumer: consumer,
 		Identity: identityModule,
+		Category: categoryModule,
+		Product:  productModule,
 		Worker:   workerServer,
 	}, nil
 }

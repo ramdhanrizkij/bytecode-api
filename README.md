@@ -1,6 +1,6 @@
 # Bytecode API
 
-A modular Go backend boilerplate for authentication, authorization, profile management, and asynchronous email verification.
+A modular Go backend boilerplate for authentication, authorization, catalog management, profile management, and asynchronous email verification.
 
 This project uses:
 - Go
@@ -14,13 +14,15 @@ This project uses:
 
 ## Current Scope
 
-The current implementation centers on the `identity` module and includes:
+The current implementation includes:
+- category module with authenticated read and admin CRUD
 - user registration
 - email verification
 - login
 - refresh token flow
 - current user profile read/update
 - admin user CRUD
+- product module with authenticated read and admin CRUD
 - role CRUD
 - permission CRUD
 - assign roles to users
@@ -46,6 +48,7 @@ cmd/
 configs/
 internal/
   bootstrap/
+  category/
   identity/
     application/
     domain/
@@ -54,6 +57,7 @@ internal/
       http/
       worker/
   platform/
+  product/
   shared/
   worker/
 migrations/
@@ -144,15 +148,18 @@ If you want to use Makefile-based migration commands, ensure `make` is installed
 Goose SQL migrations are stored in [migrations](migrations).
 
 Included migrations:
+- categories
 - users
 - roles
 - permissions
+- products
 - user_roles
 - role_permissions
 - refresh_tokens
 - email_verification_tokens
 - worker_jobs
-- default role and permission seed data
+- default role/permission seed data
+- sample category and product seed data
 
 ### Using Makefile
 
@@ -257,6 +264,23 @@ Example response:
 ### Authenticated user
 - `GET /api/v1/profile`
 - `PUT /api/v1/profile`
+- `GET /api/v1/categories`
+- `GET /api/v1/categories/:id`
+- `GET /api/v1/products`
+- `GET /api/v1/products/:id`
+
+### Admin catalog
+- `GET /api/v1/admin/categories`
+- `POST /api/v1/admin/categories`
+- `GET /api/v1/admin/categories/:id`
+- `PUT /api/v1/admin/categories/:id`
+- `DELETE /api/v1/admin/categories/:id`
+
+- `GET /api/v1/admin/products`
+- `POST /api/v1/admin/products`
+- `GET /api/v1/admin/products/:id`
+- `PUT /api/v1/admin/products/:id`
+- `DELETE /api/v1/admin/products/:id`
 
 ### Admin
 - `GET /api/v1/admin/users`
@@ -284,6 +308,14 @@ Example response:
 Permission checks are enforced in middleware.
 
 Seeded permissions:
+- `categories.read`
+- `categories.create`
+- `categories.update`
+- `categories.delete`
+- `products.read`
+- `products.create`
+- `products.update`
+- `products.delete`
 - `users.read`
 - `users.create`
 - `users.update`
@@ -300,8 +332,34 @@ Seeded permissions:
 - `profile.update`
 
 Seeded roles:
-- `admin` → all seeded permissions
-- `user` → `profile.read`, `profile.update`
+- `admin` → all seeded permissions, including catalog management
+- `user` → `profile.read`, `profile.update`, `categories.read`, `products.read`
+
+## Catalog Model
+
+### Category
+- `id`
+- `name`
+- `slug`
+- `description`
+- `is_active`
+- `created_at`
+- `updated_at`
+
+### Product
+- `id`
+- `category_id`
+- `name`
+- `slug`
+- `description`
+- `sku`
+- `price` as `BIGINT` in minor units
+- `stock`
+- `is_active`
+- `created_at`
+- `updated_at`
+
+The product list/detail responses also include `category_name` for convenience.
 
 ## Response Format
 
@@ -357,5 +415,6 @@ Zap is used for:
 
 - The project currently has no automated tests.
 - The `identity` module currently also contains admin-facing user/role/permission management endpoints.
+- `category` and `product` are separate modules wired through the same auth and permission middleware used by `identity`.
 - Schema setup is migration-driven; run migrations before starting API or worker.
 - Build artifacts are written to `bin/` and ignored via `.gitignore`.

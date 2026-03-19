@@ -31,8 +31,6 @@ func messageForTag(field, tag, param string) string {
 	switch tag {
 	case "required":
 		return field + " is required"
-	case "email":
-		return field + " must be a valid email"
 	case "min":
 		return field + " must be at least " + param + " characters"
 	case "max":
