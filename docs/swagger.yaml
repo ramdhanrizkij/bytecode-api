@@ -1,0 +1,1573 @@
+basePath: /api/v1
+definitions:
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.AuthResponse:
+    properties:
+      refresh_token:
+        example: refresh-token-value
+        type: string
+      token:
+        example: access-token-value
+        type: string
+      user:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.UserResponse'
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.LoginRequest:
+    properties:
+      email:
+        example: jane@example.com
+        type: string
+      password:
+        example: secret123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.LogoutRequest:
+    properties:
+      refresh_token:
+        example: refresh-token-value
+        type: string
+    required:
+    - refresh_token
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        example: refresh-token-value
+        type: string
+    required:
+    - refresh_token
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.RegisterRequest:
+    properties:
+      email:
+        example: jane@example.com
+        type: string
+      name:
+        example: Jane Doe
+        maxLength: 100
+        minLength: 2
+        type: string
+      password:
+        example: secret123
+        maxLength: 50
+        minLength: 8
+        type: string
+      profile_picture:
+        example: profiles/jane.png
+        maxLength: 500
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.TokenResponse:
+    properties:
+      refresh_token:
+        example: refresh-token-value
+        type: string
+      token:
+        example: access-token-value
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.UserResponse:
+    properties:
+      email:
+        example: jane@example.com
+        type: string
+      id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: Jane Doe
+        type: string
+      role_name:
+        example: user
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.CreatePermissionRequest:
+    properties:
+      description:
+        example: Can view users
+        maxLength: 255
+        type: string
+      guard_name:
+        example: api
+        maxLength: 50
+        type: string
+      name:
+        example: users.view
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - name
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.PermissionDetailResponse:
+    properties:
+      created_at:
+        example: "2026-05-13T10:00:00+07:00"
+        type: string
+      description:
+        example: Can view users
+        type: string
+      guard_name:
+        example: api
+        type: string
+      id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+      name:
+        example: users.view
+        type: string
+      updated_at:
+        example: "2026-05-13T10:00:00+07:00"
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.UpdatePermissionRequest:
+    properties:
+      description:
+        example: Can view users
+        maxLength: 255
+        type: string
+      guard_name:
+        example: api
+        maxLength: 50
+        type: string
+      name:
+        example: users.view
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - name
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.AssignPermissionsRequest:
+    properties:
+      permission_ids:
+        example:
+        - 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        items:
+          type: string
+        minItems: 1
+        type: array
+    required:
+    - permission_ids
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.CreateRoleRequest:
+    properties:
+      description:
+        example: Can manage operational resources
+        maxLength: 255
+        type: string
+      guard_name:
+        example: api
+        maxLength: 50
+        type: string
+      name:
+        example: manager
+        maxLength: 50
+        minLength: 2
+        type: string
+    required:
+    - name
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.PermissionResponse:
+    properties:
+      id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+      name:
+        example: users.view
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.RoleResponse:
+    properties:
+      created_at:
+        example: "2026-05-13T10:00:00+07:00"
+        type: string
+      description:
+        example: Can manage operational resources
+        type: string
+      guard_name:
+        example: api
+        type: string
+      id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+      name:
+        example: manager
+        type: string
+      permissions:
+        items:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.PermissionResponse'
+        type: array
+      updated_at:
+        example: "2026-05-13T10:00:00+07:00"
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.UpdateRoleRequest:
+    properties:
+      description:
+        example: Can manage operational resources
+        maxLength: 255
+        type: string
+      guard_name:
+        example: api
+        maxLength: 50
+        type: string
+      name:
+        example: manager
+        maxLength: 50
+        minLength: 2
+        type: string
+    required:
+    - name
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.CreateUserRequest:
+    properties:
+      email:
+        example: jane@example.com
+        type: string
+      is_active:
+        description: Use pointer to allow false-value validation
+        example: true
+        type: boolean
+      name:
+        example: Jane Doe
+        maxLength: 100
+        minLength: 2
+        type: string
+      password:
+        example: secret123
+        maxLength: 50
+        minLength: 8
+        type: string
+      profile_picture:
+        example: profiles/jane.png
+        maxLength: 500
+        type: string
+      role_id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - role_id
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.ProfilePictureResponse:
+    properties:
+      bucket:
+        example: uploads
+        type: string
+      key:
+        example: profiles/jane.png
+        type: string
+      url:
+        example: http://localhost:8080/storage/profiles/jane.png
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.RoleInfo:
+    properties:
+      id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+      name:
+        example: user
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UpdateProfileRequest:
+    properties:
+      email:
+        example: jane@example.com
+        type: string
+      name:
+        example: Jane Doe
+        maxLength: 100
+        minLength: 2
+        type: string
+      profile_picture:
+        example: profiles/jane.png
+        maxLength: 500
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UpdateUserRequest:
+    properties:
+      email:
+        example: jane@example.com
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: Jane Doe
+        maxLength: 100
+        minLength: 2
+        type: string
+      password:
+        description: Optional on update
+        example: secret123
+        maxLength: 50
+        minLength: 8
+        type: string
+      profile_picture:
+        example: profiles/jane.png
+        maxLength: 500
+        type: string
+      role_id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+    required:
+    - email
+    - name
+    - role_id
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UserDetailResponse:
+    properties:
+      created_at:
+        example: "2026-05-13T10:00:00+07:00"
+        type: string
+      email:
+        example: jane@example.com
+        type: string
+      id:
+        example: 018f7606-a3f7-7c40-8e4b-2d47c6e04c8d
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: Jane Doe
+        type: string
+      profile_picture:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.ProfilePictureResponse'
+      role:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.RoleInfo'
+      updated_at:
+        example: "2026-05-13T10:00:00+07:00"
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta:
+    properties:
+      code:
+        example: 200
+        type: integer
+      message:
+        example: OK
+        type: string
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_shared_response.PaginationMeta:
+    properties:
+      current_page:
+        example: 1
+        type: integer
+      per_page:
+        example: 10
+        type: integer
+      total_items:
+        example: 42
+        type: integer
+      total_pages:
+        example: 5
+        type: integer
+    type: object
+  github_com_ramdhanrizkij_bytecode-api_internal_shared_validator.ValidationErrorDetail:
+    properties:
+      field:
+        type: string
+      message:
+        type: string
+      tag:
+        type: string
+    type: object
+  swaggerdocs.AuthResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.AuthResponse'
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.ErrorResponse:
+    properties:
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.HealthData:
+    properties:
+      cache:
+        example: disabled
+        type: string
+      database:
+        example: up
+        type: string
+      environment:
+        example: development
+        type: string
+      service:
+        example: bytecode-api
+        type: string
+      status:
+        example: ok
+        type: string
+      storage:
+        example: local
+        type: string
+    type: object
+  swaggerdocs.HealthResponse:
+    properties:
+      data:
+        $ref: '#/definitions/swaggerdocs.HealthData'
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.PermissionListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.PermissionDetailResponse'
+        type: array
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+      pagination:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.PaginationMeta'
+    type: object
+  swaggerdocs.PermissionResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.PermissionDetailResponse'
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.RoleListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.RoleResponse'
+        type: array
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+      pagination:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.PaginationMeta'
+    type: object
+  swaggerdocs.RoleResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.RoleResponse'
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.TokenResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.TokenResponse'
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.UserListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UserDetailResponse'
+        type: array
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+      pagination:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.PaginationMeta'
+    type: object
+  swaggerdocs.UserPermissionListResponse:
+    properties:
+      data:
+        example:
+        - users.view
+        - roles.view
+        items:
+          type: string
+        type: array
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UserDetailResponse'
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+  swaggerdocs.ValidationErrorResponse:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_validator.ValidationErrorDetail'
+        type: array
+      meta:
+        $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_shared_response.Meta'
+    type: object
+info:
+  contact:
+    email: support@example.com
+    name: Bytecode API Support
+  description: REST API for authentication, users, roles, permissions, RBAC, storage-backed
+    profiles, and worker-enabled background tasks.
+  license:
+    name: MIT
+  termsOfService: http://swagger.io/terms/
+  title: Bytecode API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns access and refresh tokens.
+      parameters:
+      - description: Login payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      summary: Login
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Revokes a refresh token.
+      parameters:
+      - description: Logout payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.LogoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      summary: Logout
+      tags:
+      - Auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges a valid refresh token for a new token pair.
+      parameters:
+      - description: Refresh token payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      summary: Refresh access token
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a user account and returns access and refresh tokens.
+      parameters:
+      - description: Registration payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_auth_domain.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/swaggerdocs.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      summary: Register a new user
+      tags:
+      - Auth
+  /health:
+    get:
+      description: Returns the current health state for the API, database, cache,
+        and storage provider.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.HealthResponse'
+      summary: Check service health
+      tags:
+      - Health
+  /permissions/:
+    get:
+      description: Returns paginated permissions.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - default: created_at
+        description: Sort field
+        in: query
+        name: sort
+        type: string
+      - default: desc
+        description: Sort direction
+        enum:
+        - asc
+        - desc
+        in: query
+        name: order
+        type: string
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.PermissionListResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List permissions
+      tags:
+      - Permissions
+    post:
+      consumes:
+      - application/json
+      description: Creates a new permission.
+      parameters:
+      - description: Permission payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.CreatePermissionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/swaggerdocs.PermissionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create permission
+      tags:
+      - Permissions
+  /permissions/{id}:
+    delete:
+      description: Deletes a permission by UUID.
+      parameters:
+      - description: Permission UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete permission
+      tags:
+      - Permissions
+    get:
+      description: Returns one permission by UUID.
+      parameters:
+      - description: Permission UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.PermissionResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get permission by ID
+      tags:
+      - Permissions
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing permission by UUID.
+      parameters:
+      - description: Permission UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Permission payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_permission_domain.UpdatePermissionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.PermissionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update permission
+      tags:
+      - Permissions
+  /roles/:
+    get:
+      description: Returns paginated roles with their permissions.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - default: created_at
+        description: Sort field
+        in: query
+        name: sort
+        type: string
+      - default: desc
+        description: Sort direction
+        enum:
+        - asc
+        - desc
+        in: query
+        name: order
+        type: string
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.RoleListResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List roles
+      tags:
+      - Roles
+    post:
+      consumes:
+      - application/json
+      description: Creates a new role.
+      parameters:
+      - description: Role payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.CreateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/swaggerdocs.RoleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create role
+      tags:
+      - Roles
+  /roles/{id}:
+    delete:
+      description: Deletes a role by UUID.
+      parameters:
+      - description: Role UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete role
+      tags:
+      - Roles
+    get:
+      description: Returns one role by UUID.
+      parameters:
+      - description: Role UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.RoleResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get role by ID
+      tags:
+      - Roles
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing role by UUID.
+      parameters:
+      - description: Role UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Role payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.UpdateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.RoleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update role
+      tags:
+      - Roles
+  /roles/{id}/permissions:
+    delete:
+      consumes:
+      - application/json
+      description: Removes permissions from a role by UUID.
+      parameters:
+      - description: Role UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Permission IDs
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.AssignPermissionsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove permissions from role
+      tags:
+      - Roles
+    post:
+      consumes:
+      - application/json
+      description: Adds permissions to a role by UUID.
+      parameters:
+      - description: Role UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Permission IDs
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_role_domain.AssignPermissionsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Assign permissions to role
+      tags:
+      - Roles
+  /users/:
+    get:
+      description: Returns paginated users.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - default: created_at
+        description: Sort field
+        in: query
+        name: sort
+        type: string
+      - default: desc
+        description: Sort direction
+        enum:
+        - asc
+        - desc
+        in: query
+        name: order
+        type: string
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserListResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user.
+      parameters:
+      - description: User payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create user
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      description: Deletes a user by UUID.
+      parameters:
+      - description: User UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete user
+      tags:
+      - Users
+    get:
+      description: Returns one user by UUID.
+      parameters:
+      - description: User UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user by ID
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing user by UUID.
+      parameters:
+      - description: User UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user
+      tags:
+      - Users
+  /users/me:
+    get:
+      description: Returns the profile for the authenticated user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - Users
+  /users/me/permissions:
+    get:
+      description: Returns permission names assigned to the authenticated user's role.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserPermissionListResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user permissions
+      tags:
+      - Users
+  /users/me/profile:
+    put:
+      consumes:
+      - application/json
+      description: Updates the authenticated user's profile.
+      parameters:
+      - description: Profile payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ramdhanrizkij_bytecode-api_internal_features_user_domain.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swaggerdocs.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/swaggerdocs.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swaggerdocs.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update current user profile
+      tags:
+      - Users
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and a JWT access token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
