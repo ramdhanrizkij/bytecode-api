@@ -3,19 +3,16 @@ package testhelper
 import (
 	"context"
 	"fmt"
-	"path/filepath"
-	"runtime"
 	"testing"
 	"time"
 
-	"github.com/golang-migrate/migrate/v4"
-	migrate_postgres "github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/testcontainers/testcontainers-go"
 	testcontainers_postgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
 	gorm_postgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	appmigrations "github.com/ramdhanrizkij/bytecode-api/migrations"
 )
 
 // TestDB holds the GORM instance and the container reference for integration tests.
@@ -87,26 +84,11 @@ func (tdb *TestDB) TruncateAll(t *testing.T) {
 }
 
 func runMigrations(t *testing.T, db *gorm.DB) {
-	sqlDB, err := db.DB()
+	runner, err := appmigrations.New(db)
 	if err != nil {
-		t.Fatalf("failed to get sql.DB: %s", err)
+		t.Fatalf("failed to create migration runner: %s", err)
 	}
-
-	driver, err := migrate_postgres.WithInstance(sqlDB, &migrate_postgres.Config{})
-	if err != nil {
-		t.Fatalf("failed to create migration driver: %s", err)
-	}
-
-	_, b, _, _ := runtime.Caller(0)
-	basepath := filepath.Dir(b)
-	migrationPath := fmt.Sprintf("file://%s", filepath.Join(basepath, "..", "..", "..", "migrations"))
-
-	m, err := migrate.NewWithDatabaseInstance(migrationPath, "postgres", driver)
-	if err != nil {
-		t.Fatalf("failed to create migrate instance: %s", err)
-	}
-
-	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+	if err := runner.Migrate(); err != nil {
 		t.Fatalf("failed to run migrations: %s", err)
 	}
 }

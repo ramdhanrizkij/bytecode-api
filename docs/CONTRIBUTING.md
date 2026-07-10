@@ -56,7 +56,7 @@ Not present in the analyzed codebase.
 - Verify cache invalidation for mutations.
 - Verify errors use correct HTTP codes.
 - Verify secrets are not committed.
-- Verify migrations have up and down files.
+- Verify migrations define both `Migrate` and `Rollback` functions and are registered.
 
 ## Definition of Done
 

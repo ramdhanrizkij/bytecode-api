@@ -10,7 +10,7 @@ Bytecode API is a Go Fiber REST API for identity and access management. It inclu
 - HTTP server and dependency wiring: `internal/core/server/http.go`.
 - Feature modules: `internal/features/auth`, `user`, `role`, `permission`.
 - Persistence: PostgreSQL through GORM repositories.
-- Schema: SQL migrations under `migrations/`.
+- Schema: versioned Gormigrate definitions under `migrations/`.
 - Shared API envelope: `internal/shared/response`.
 
 ## Coding Conventions
@@ -74,7 +74,7 @@ Bytecode API is a Go Fiber REST API for identity and access management. It inclu
 
 ## Common Pitfalls
 
-- Do not use GORM `AutoMigrate`; add SQL migrations.
+- Do not run schema migration automatically during application startup; add an explicit Gormigrate definition.
 - Do not add protected routes without `JWTAuth` and appropriate permission middleware.
 - Do not store raw refresh tokens.
 - Do not assume Redis exists; cache client may be disabled.

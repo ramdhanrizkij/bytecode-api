@@ -15,7 +15,7 @@ Bytecode API provides a Fiber v3 HTTP API backed by PostgreSQL and GORM. The imp
 - RBAC middleware based on role permission names stored in PostgreSQL.
 - CRUD endpoints for users, roles, and permissions.
 - User self-service endpoints for current profile and permissions.
-- PostgreSQL migrations managed by `golang-migrate`.
+- PostgreSQL migrations managed by Gormigrate.
 - Optional Redis cache for list/detail/permission reads.
 - Pluggable local or MinIO object storage provider.
 - In-process worker pool for immediate asynchronous jobs.
@@ -30,7 +30,7 @@ Bytecode API provides a Fiber v3 HTTP API backed by PostgreSQL and GORM. The imp
 | HTTP framework | `github.com/gofiber/fiber/v3` |
 | Database | PostgreSQL |
 | ORM | GORM |
-| Migrations | `github.com/golang-migrate/migrate/v4` |
+| Migrations | `github.com/go-gormigrate/gormigrate/v2` |
 | Authentication | JWT signed with HMAC SHA-256 |
 | Password hashing | bcrypt cost `12` |
 | Cache | Optional Redis |
@@ -49,7 +49,7 @@ internal/
   features/            feature modules: auth, user, role, permission
   model/               GORM models mapped to migration tables
   shared/              response, errors, pagination, validation, Swagger response types
-migrations/            ordered SQL migrations
+migrations/            ordered Go migration definitions
 pkg/
   hash/                bcrypt helpers
   jwt/                 JWT generation and parsing

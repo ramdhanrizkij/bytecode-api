@@ -7,7 +7,7 @@ The Dockerfile is a multi-stage build:
 1. Build stage: `golang:1.26.1-alpine`.
 2. Installs `git`, `gcc`, and `musl-dev`.
 3. Downloads modules.
-4. Builds `cmd/api/main.go` to `bin/api`.
+4. Builds `cmd/api/main.go` to `bin/api` and `cmd/migrate/main.go` to `bin/migrate`.
 5. Runtime stage: `alpine:3.19`.
 6. Copies the API binary and `.env.example` as `.env`.
 
@@ -57,6 +57,12 @@ make migrate-down
 ```
 
 Application rollback process is not present in the analyzed codebase.
+
+The container image includes the migration command. Run it as a one-off process with a PostgreSQL URL before starting a new application version:
+
+```bash
+docker run --rm --entrypoint ./migrate bytecode-api -action up -database "$DATABASE_URL"
+```
 
 ## Scaling
 

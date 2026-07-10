@@ -14,7 +14,7 @@ import (
 
 // NewPostgresDB initializes a GORM database connection to PostgreSQL.
 // It configures the connection pool and GORM logger based on the application environment.
-// AutoMigrate is intentionally NOT used — migrations are managed by golang-migrate.
+// Schema changes are not run at startup; explicit Gormigrate definitions manage them.
 func NewPostgresDB(cfg *config.DBConfig, appEnv string, log *zap.Logger) (*gorm.DB, error) {
 	// Choose GORM log level: Info for development, Silent for production.
 	gormLogLevel := gormlogger.Info

@@ -8,6 +8,7 @@
 | `github.com/gofiber/contrib/v3/swaggo` | Swagger UI handler |
 | `gorm.io/gorm` | ORM for PostgreSQL access |
 | `gorm.io/driver/postgres` | GORM PostgreSQL driver |
+| `github.com/go-gormigrate/gormigrate/v2` | Versioned Go migration execution and rollback through GORM |
 | `github.com/golang-jwt/jwt/v5` | JWT generation and validation |
 | `golang.org/x/crypto` | bcrypt password hashing |
 | `github.com/redis/go-redis/v9` | Optional Redis cache client |
@@ -23,7 +24,6 @@
 | Dependency | Why It Exists |
 | --- | --- |
 | `github.com/swaggo/swag` | Generates Swagger docs from annotations |
-| `github.com/golang-migrate/migrate/v4` | Database migration CLI and integration test migration runner |
 
 ## Testing
 

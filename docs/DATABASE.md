@@ -88,7 +88,7 @@ erDiagram
 
 ## Migration Strategy
 
-Migrations live under `migrations/` and are applied with `golang-migrate`.
+Migrations live under `migrations/` as Go files containing `gormigrate.Migration` values. Each migration defines `Migrate` and `Rollback` functions, uses migration-local GORM models, and registers itself in version order.
 
 ```bash
 make migrate-up
@@ -97,7 +97,9 @@ make migrate-refresh
 make migrate-create name=create_something_table
 ```
 
-GORM `AutoMigrate` is not used.
+GORM migrator functions such as `AutoMigrate`, `AddColumn`, and `DropTable` are used only inside versioned migrations. The API and worker do not migrate the schema automatically during startup.
+
+Gormigrate records applied IDs in `gormigrate_migrations`. On the first run against a database previously managed by `golang-migrate`, the migration command imports the clean version from `schema_migrations` so already-applied migrations are not replayed. A dirty legacy version must be repaired before the switch.
 
 ## Seed Data
 
@@ -115,7 +117,7 @@ Not present in the analyzed codebase. Models do not include `gorm.DeletedAt`, an
 
 ## Transactions
 
-Explicit multi-step transaction blocks are not present in the analyzed codebase.
+Gormigrate executes migration and rollback operations in transactions.
 
 ## Isolation
 

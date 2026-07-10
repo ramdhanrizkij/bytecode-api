@@ -15,8 +15,9 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o bin/api cmd/api/main.go
+# Build the application and migration command
+RUN CGO_ENABLED=0 GOOS=linux go build -o bin/api cmd/api/main.go \
+    && CGO_ENABLED=0 GOOS=linux go build -o bin/migrate cmd/migrate/main.go
 
 # Final stage
 FROM alpine:3.19
@@ -25,6 +26,7 @@ WORKDIR /app
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/bin/api .
+COPY --from=builder /app/bin/migrate .
 COPY --from=builder /app/.env.example .env
 
 # Expose port

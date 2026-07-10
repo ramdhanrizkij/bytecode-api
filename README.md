@@ -7,7 +7,7 @@ Bytecode API is a robust, production-ready, and modular Go web API boilerplate. 
 - **Clean & Modular Architecture**: Structured by features (auth, user, role, permission).
 - **Authentication & Authorization**: Secure JWT-based authentication combined with an RBAC middleware to handle user permissions precisely.
 - **Robust Routing capability**: Utilizing [Fiber](https://gofiber.io/) as our performant HTTP engine.
-- **Database Operations**: Integrated with PostgreSQL using [GORM](https://gorm.io/) and `golang-migrate` for version control of schema migrations.
+- **Database Operations**: Integrated with PostgreSQL using [GORM](https://gorm.io/) and [Gormigrate](https://github.com/go-gormigrate/gormigrate) for versioned schema migrations.
 - **Background Jobs**: Built-in generic worker pool & job scheduling mechanism.
 - **Optional Redis Caching**: Redis can be enabled via environment variables for caching frequently accessed endpoints.
 - **Pluggable File Storage**: Choose between local filesystem storage and MinIO (S3-compatible) through environment variables.
@@ -20,7 +20,7 @@ Bytecode API is a robust, production-ready, and modular Go web API boilerplate. 
 - **Framework**: [Fiber v3](https://github.com/gofiber/fiber)
 - **Database**: PostgreSQL
 - **ORM**: [GORM](https://gorm.io/)
-- **Migrations**: [golang-migrate](https://github.com/golang-migrate/migrate)
+- **Migrations**: [Gormigrate](https://github.com/go-gormigrate/gormigrate)
 - **Logging**: [Uber Zap](https://github.com/uber-go/zap)
 - **Cache**: Redis (optional)
 - **Object Storage**: Local filesystem or MinIO (optional)
@@ -54,24 +54,17 @@ Before you begin, ensure you have met the following requirements:
    go mod tidy
    ```
 
-4. **Setup Database Migrations:**
-   Install the migration CLI tool. A convenience command is provided in the Makefile:
-   ```bash
-   make migrate-setup
-   ```
-   *Note: If the `migrate` command is not recognized after installation, ensure that `~/go/bin` is added to your system's `PATH`.*
-
-5. **Run the Migrations:**
+4. **Run the Migrations:**
    Create your tables to prepare the database schema.
    ```bash
    make migrate-up
    ```
 
-6. **Optional Redis cache:**
+5. **Optional Redis cache:**
    Redis is disabled by default. To enable it in the app, set `REDIS_ENABLED=true` in `.env`.
    If you also want Docker Compose to start Redis, set `COMPOSE_PROFILES=redis`.
 
-7. **Optional file storage provider:**
+6. **Optional file storage provider:**
    Local storage is the default with `STORAGE_PROVIDER=local`, storing files under `STORAGE_LOCAL_PATH` and serving them from `STORAGE_BASE_URL`.
    To use MinIO instead, set `STORAGE_PROVIDER=minio` and configure the `MINIO_*` variables in `.env`.
    If you want Docker Compose to start MinIO too, set `COMPOSE_PROFILES=minio` or combine profiles such as `COMPOSE_PROFILES=redis,minio`.
@@ -103,7 +96,7 @@ make test-integration # Run integration tests
 make migrate-up      # Apply pending database migrations
 make migrate-down    # Revert the latest database migration
 make migrate-refresh # Drop all and re-apply all migrations completely
-make migrate-create name=create_users_table # Generate a new blank migration file
+make migrate-create name=create_users_table # Generate a registered Go migration stub
 ```
 
 **Swagger documentation:**
@@ -123,7 +116,7 @@ Swagger UI is available at `http://127.0.0.1:8080/swagger/index.html` when enabl
 │   ├── core/         # Core system utilities (config, middleware, server, job pool)
 │   ├── features/     # Feature modules (Auth, User, Role, Permission)
 │   └── shared/       # Shared generic utilities (Response format, constants, Validation)
-├── migrations/       # SQL migration scripts
+├── migrations/       # Versioned Gormigrate definitions
 ├── test/             # Integration tests
 ├── .env.example      # Environment variables template
 ├── Makefile          # Useful execution commands

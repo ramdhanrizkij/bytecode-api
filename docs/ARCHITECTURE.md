@@ -127,7 +127,7 @@ flowchart TD
 
 ## Architectural Decisions
 
-- Database schema is migration-first. `AutoMigrate` is intentionally not used.
+- Database schema is migration-first. GORM migrator functions run only inside explicit versioned Gormigrate definitions.
 - The API and scheduled worker are separate executables.
 - JWT access tokens carry `user_id`, `email`, and `role_name`.
 - Refresh tokens are opaque random values stored only as SHA-256 hashes.

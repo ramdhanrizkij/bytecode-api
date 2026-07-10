@@ -7,6 +7,7 @@ export
 build:
 	go build -o bin/api cmd/api/main.go
 	go build -o bin/worker cmd/worker/main.go
+	go build -o bin/migrate cmd/migrate/main.go
 
 run:
 	go run cmd/api/main.go
@@ -38,35 +39,27 @@ swagger:
 	swag init -g cmd/api/main.go --parseDependency --parseInternal --output docs
 
 # ─── Migrations ──────────────────────────────────────────────────────────────
-# Requires the `migrate` CLI: https://github.com/golang-migrate/migrate
-# Install: go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
-#
 # DATABASE_URL can be overridden on the command line:
 #   make migrate-up DATABASE_URL=postgres://...
 
 DATABASE_URL ?= postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=$(DB_SSLMODE)
 
-# Setup the migrate CLI tool
-migrate-setup:
-	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
-
 # Apply all pending migrations
 migrate-up:
-	migrate -path migrations -database "$(DATABASE_URL)" -verbose up
+	go run ./cmd/migrate -action up -database "$(DATABASE_URL)"
 
 # Roll back the last applied migration
 migrate-down:
-	migrate -path migrations -database "$(DATABASE_URL)" -verbose down 1
+	go run ./cmd/migrate -action down -database "$(DATABASE_URL)"
 
 # Drop all migrations and apply them from scratch
 migrate-refresh:
-	migrate -path migrations -database "$(DATABASE_URL)" -verbose down -all
-	migrate -path migrations -database "$(DATABASE_URL)" -verbose up
+	go run ./cmd/migrate -action refresh -database "$(DATABASE_URL)"
 
-# Create a new migration pair
+# Create a new Go migration
 # Usage: make migrate-create name=create_something_table
 migrate-create:
 	@test -n "$(name)" || (echo "ERROR: name is required. Usage: make migrate-create name=create_xxx_table" && exit 1)
-	migrate create -ext sql -dir migrations -seq $(name)
+	go run ./cmd/migrate -action create -dir migrations -name "$(name)"
 
-.PHONY: run build test test-unit test-integration tidy swagger-setup swagger migrate-setup migrate-up migrate-down migrate-refresh migrate-create
+.PHONY: run build test test-unit test-integration tidy swagger-setup swagger migrate-up migrate-down migrate-refresh migrate-create
